@@ -5,9 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ssh-publish"
 requires-python = ">=3"
-authors = [
-  { name = "Pradish Bijukchhe", email = "pradish@sandbox.com.np" },
-]
+authors = [{ name = "Pradish Bijukchhe", email = "pradish@sandbox.com.np" }]
 description = "Publish python packages to VPS via SSH"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -15,6 +13,8 @@ keywords = []
 classifiers = ["Programming Language :: Python :: 3"]
 dynamic = ["version", "dependencies"]
 
+[project.scripts]
+ssh-publish = "ssh_publish.__main__:main"
 
 [project.urls]
 Homepage = "https://github.com/sandbox-pokhara/ssh-publish"

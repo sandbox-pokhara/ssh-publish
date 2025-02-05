@@ -1,6 +1,6 @@
 # ssh-publish
 
-Publish python packages to VPS via SSH
+Publish python packages to VPS via SSH. This project simplifies the process of uploading and managing python packages on your self-hosted package repository.
 
 ## Installation
 
@@ -12,10 +12,17 @@ pip install ssh-publish
 
 ## Usage
 
-```python
-import ssh_publish
+```
+ssh-publish HOST DIR
+```
 
-# usage examples here
+This commands uploads the latest built whl file from dist directory to `HOST` at `DIR`.
+
+Examples:
+
+```
+ssh-publish 192.168.10.100 static/my-pkg
+ssh-publish username@192.168.10.100 packages/my-pkg
 ```
 
 ## License
