@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=70.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ssh-publish"
+requires-python = ">=3"
+authors = [
+  { name = "Pradish Bijukchhe", email = "pradish@sandbox.com.np" },
+]
+description = "Publish python packages to VPS via SSH"
+readme = "README.md"
+license = { file = "LICENSE" }
+keywords = []
+classifiers = ["Programming Language :: Python :: 3"]
+dynamic = ["version", "dependencies"]
+
+
+[project.urls]
+Homepage = "https://github.com/sandbox-pokhara/ssh-publish"
+Issues = "https://github.com/sandbox-pokhara/ssh-publish/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-dir]
+"ssh_publish" = "ssh_publish"
+
+[tool.setuptools.dynamic]
+version = { attr = "ssh_publish.__version__" }
+dependencies = { file = "requirements.txt" }
+
+[tool.isort]
+profile = "black"
+line_length = 79
+force_single_line = true
+
+[tool.black]
+line-length = 79
+preview = true
+enable-unstable-feature = ["string_processing"]
+
+[tool.pyright]
+venvPath = "."
+venv = "venv"
+include = ["ssh_publish", "test.py"]
+typeCheckingMode = "strict"
