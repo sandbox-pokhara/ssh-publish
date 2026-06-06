@@ -2,8 +2,16 @@ import os
 from argparse import ArgumentParser
 from pathlib import Path
 
-from paramiko import AutoAddPolicy
-from paramiko import SSHClient
+from paramiko import AutoAddPolicy, SSHClient
+from rich.progress import (
+    BarColumn,
+    DownloadColumn,
+    Progress,
+    TaskProgressColumn,
+    TextColumn,
+    TimeRemainingColumn,
+    TransferSpeedColumn,
+)
 
 
 def main():
@@ -39,10 +47,22 @@ def main():
             raise Exception(f"Package {latest_wheel.name} already exists.")
         print("creating directories...")
         ssh.exec_command(f"mkdir -p {args.directory}", timeout=30)
-        print("uploading...")
         with ssh.open_sftp() as sftp:
             remote_path = args.directory + "/" + latest_wheel.name
-            sftp.put(latest_wheel, remote_path)
+            with Progress(
+                TextColumn("[progress.description]{task.description}"),
+                BarColumn(),
+                TaskProgressColumn(),
+                DownloadColumn(),
+                TransferSpeedColumn(),
+                TimeRemainingColumn(),
+            ) as progress:
+                task = progress.add_task("uploading", total=latest_wheel.stat().st_size)
+
+                def callback(transferred: int, total: int) -> None:
+                    progress.update(task, completed=transferred)
+
+                sftp.put(latest_wheel, remote_path, callback=callback)
         print("done.")
 
 
